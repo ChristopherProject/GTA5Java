@@ -45,7 +45,7 @@ public class Main {
                 guiInGame.renderer();
             }
         }else{
-            User32.INSTANCE.MessageBox(null, "Injected!", "NobusWare", User32.MB_OK | User32.MB_ICONINFORMATION);
+            User32.INSTANCE.MessageBox(null, "PROCESS TO ATTACH NOT FOUND", "Warining!?!", User32.MB_OK | User32.MB_ICONWARNING);
             System.exit(-1);
         }
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
