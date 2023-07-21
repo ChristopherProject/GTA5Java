@@ -22,9 +22,9 @@ public class Main {
     private static final GuiInGame guiInGame = new GuiInGame("Grand Theft Auto V");
 
     public static void main(String[] args) {
-        User32.INSTANCE.MessageBox(null, "Injected!", "NobusWare", User32.MB_OK | User32.MB_ICONINFORMATION);
         int processId = ProcessUtil.getProcessPidByName(PROCESS_NAME);
         if (processId != 0) {
+            User32.INSTANCE.MessageBox(null, "Injected!", "NobusWare", User32.MB_OK | User32.MB_ICONINFORMATION);
             WinNT.HANDLE pHandle = Kernel32.INSTANCE.OpenProcess(WinNT.PROCESS_ALL_ACCESS, false, processId);
             Pointer baseAddr = Objects.requireNonNull(Memory.getModuleBaseAddress(processId, PROCESS_NAME)).getPointer();
             System.out.println("PID -> " + processId);
@@ -44,6 +44,14 @@ public class Main {
             while (processId != 0) {
                 guiInGame.renderer();
             }
+        }else{
+            User32.INSTANCE.MessageBox(null, "Injected!", "NobusWare", User32.MB_OK | User32.MB_ICONINFORMATION);
+            System.exit(-1);
         }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            User32.INSTANCE.MessageBox(null, "Uninfected!", "NobusWare", User32.MB_OK | User32.MB_ICONINFORMATION);
+            System.runFinalization();
+            System.gc();
+        }));
     }
 }
