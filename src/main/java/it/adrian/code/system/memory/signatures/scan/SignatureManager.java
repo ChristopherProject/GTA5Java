@@ -17,15 +17,14 @@ public class SignatureManager {
         this.pid = pid;
     }
 
-
     public long getPtrFromSignature(Pointer baseAddress, byte[] signaturePtr, String signatureMask) {
         try {
             Tlhelp32.MODULEENTRY32W mod = it.adrian.code.system.memory.Memory.getModule(pid, processName);
-            long tempWorldPtr = SignatureUtil.findSignature(pHandle, Pointer.nativeValue(baseAddress), mod.modBaseSize.longValue(), signaturePtr, signatureMask);
-            if (tempWorldPtr != 0) {
-                int value = SignatureUtil.readInt(pHandle, tempWorldPtr + 3);
-                long world = tempWorldPtr + value + 7;
-                return world - Pointer.nativeValue(baseAddress);
+            long tempPtr = SignatureUtil.findSignature(pHandle, Pointer.nativeValue(baseAddress), mod.modBaseSize.longValue(), signaturePtr, signatureMask);
+            if (tempPtr != 0) {
+                int value = SignatureUtil.readInt(pHandle, tempPtr + 3);
+                long ptr = tempPtr + value + 7;
+                return ptr - Pointer.nativeValue(baseAddress);
             } else {
                 System.out.println("Signature not found.");
             }

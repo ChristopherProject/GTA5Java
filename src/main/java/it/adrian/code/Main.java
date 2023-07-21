@@ -32,13 +32,15 @@ public class Main {
             System.out.println("BaseAddress -> " + "0x" + Long.toHexString(Pointer.nativeValue(baseAddr)));
             SignatureManager signatureManager = new SignatureManager(pHandle, "GTA5.exe", processId);
 
-            //this work fine
             long worldPtr = signatureManager.getPtrFromSignature(baseAddr, SIGNATURES.worldPtrSig, SIGNATURES.worldPtrMask);
-            System.out.println("worldPtr: 0x" + Long.toHexString(worldPtr));
+            System.out.println("worldPtr -> 0x" + Long.toHexString(worldPtr));
 
-            //TODO:fix this and implement method to read and write
-            //long globalPtr = signatureManager.getPtrFromSignature(null, SIGNATURES.SigGlobalPTR, SIGNATURES.MaskGlobalPTR);
-            //System.out.println("globalPtr: 0x" + Long.toHexString(globalPtr));
+            System.out.println("=============");
+            System.out.println("STATIC ADRESSES:");
+            System.out.println("CURRENT_WEAPON_AMMOS -> 0x" + Long.toHexString((Pointer.nativeValue(baseAddr) + 0x1D59BD0)));
+            System.out.println("DEFAULT_MONEY_BANK -> 0x" + Long.toHexString((Pointer.nativeValue(baseAddr) + 0x1E01EB8)));
+            System.out.println("DEFAULT_MONEY_ONLINE -> 0x" + Long.toHexString((Pointer.nativeValue(baseAddr) + 0x1E01EB0)));
+            System.out.println("=============");
 
             guiInGame.init();
             while (processId != 0) {
