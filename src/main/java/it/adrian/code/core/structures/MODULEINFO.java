@@ -7,16 +7,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MODULEINFO extends Structure {
+
     public Pointer lpBaseOfDll;
     public int SizeOfImage;
     public Pointer EntryPoint;
 
-
     @Override
     protected List<String> getFieldOrder() {
-        return Arrays.asList(
-                "lpBaseOfDll", "SizeOfImage", "EntryPoint"
-        );
+        return Arrays.asList("lpBaseOfDll", "SizeOfImage", "EntryPoint");
     }
-    //{
 }

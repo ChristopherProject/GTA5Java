@@ -11,10 +11,4 @@ public interface GDI32 extends StdCallLibrary {
     boolean TextOutW(WinDef.HDC hdc, int x, int y, String string, int string_lenght);
 
     boolean SetBkMode(WinDef.HDC hdc, int mode);
-
-    int SetPixel(WinDef.HDC var1, int var2, int var3, int var4);
-
-    WinDef.HFONT CreateFontA(int cHeight, int cWidth, int cEscapement, int cOrientation, int cWeight, WinDef.DWORD bItalic, WinDef.DWORD bUnderline, WinDef.DWORD bStrikeOut, WinDef.DWORD iCharSet, WinDef.DWORD iOutPrecision, WinDef.DWORD iClipPrecision, WinDef.DWORD iQuality, WinDef.DWORD iPitchAndFamily, String pszFaceName);
-
-    int SetTextSize(WinDef.HDC hdc, int size);
 }

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MODULEENTRY32 extends Structure {
+
     public static class ByReference extends MODULEENTRY32 implements Structure.ByReference {}
     public static class ByValue extends MODULEENTRY32 implements Structure.ByValue {}
 
@@ -23,9 +24,6 @@ public class MODULEENTRY32 extends Structure {
 
     @Override
     protected List<String> getFieldOrder() {
-        return Arrays.asList(
-                "dwSize", "th32ModuleID", "th32ProcessID", "GlblcntUsage", "ProccntUsage",
-                "modBaseAddr", "modBaseSize", "hModule", "szModule", "szExePath"
-        );
+        return Arrays.asList("dwSize", "th32ModuleID", "th32ProcessID", "GlblcntUsage", "ProccntUsage", "modBaseAddr", "modBaseSize", "hModule", "szModule", "szExePath");
     }
 }

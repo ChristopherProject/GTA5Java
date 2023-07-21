@@ -10,6 +10,7 @@ import java.util.List;
 public class ProcessModuleInfo extends Structure {
 
     public static class ByReference extends ProcessModuleInfo implements Structure.ByReference {}
+
     public WinDef.DWORD dwSize;
     public WinDef.DWORD th32ModuleID;
     public WinDef.DWORD th32ProcessID;
@@ -23,7 +24,6 @@ public class ProcessModuleInfo extends Structure {
 
     @Override
     protected List<String> getFieldOrder() {
-        return Arrays.asList("dwSize", "th32ModuleID", "th32ProcessID", "GlblcntUsage",
-                "ProccntUsage", "modBaseAddr", "modBaseSize", "hModule", "szModule", "szExePath");
+        return Arrays.asList("dwSize", "th32ModuleID", "th32ProcessID", "GlblcntUsage", "ProccntUsage", "modBaseAddr", "modBaseSize", "hModule", "szModule", "szExePath");
     }
 }

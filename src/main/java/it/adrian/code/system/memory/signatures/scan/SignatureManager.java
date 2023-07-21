@@ -3,7 +3,7 @@ package it.adrian.code.system.memory.signatures.scan;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Tlhelp32;
 import com.sun.jna.platform.win32.WinNT;
-import it.adrian.code.core.interfaces.Kernel32Extra;
+import it.adrian.code.core.interfaces.Kernel32;
 
 public class SignatureManager {
 
@@ -30,7 +30,7 @@ public class SignatureManager {
                 System.out.println("Signature not found.");
             }
         } finally {
-            Kernel32Extra.INSTANCE.CloseHandle(pHandle);
+            Kernel32.INSTANCE.CloseHandle(pHandle);
         }
         return 0;
     }
