@@ -9,5 +9,15 @@ For this project of mine I used the following technologies:
 - JNA (Java Native Access)
 - GDI32 (Rendering Overlay)
 
+## Features
 
+- Read Pid, BaseAddress and ProcessHandler
+- Write By Offsets Array Or Long Value
+- Draw on Windows any stuff you want
+- Read Address By Signatures
+- Read and Write From PTR
 
+## Credits
+
+- Foiks (He Helped me and give me some self-confidence for do this)
+- JudgeMe (He Helped me to know memory, offsets and signatures)
