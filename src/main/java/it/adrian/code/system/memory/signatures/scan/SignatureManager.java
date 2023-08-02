@@ -33,4 +33,9 @@ public class SignatureManager {
         }
         return 0;
     }
+    /*
+#define world2screen "\x48\x89\x5C\x24\x00\x55\x56\x57\x48\x83\xEC\x70\x65\x4C\x8B\x0C\x25"
+#define world2screenMask "xxxx?xxxxxxxxxxxx"
+     */
+
 }

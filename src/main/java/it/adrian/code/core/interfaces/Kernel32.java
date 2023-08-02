@@ -33,4 +33,6 @@ public interface Kernel32 extends StdCallLibrary {
     boolean CloseHandle(WinNT.HANDLE hObject);
 
     WinNT.HANDLE OpenProcess(int fdwAccess, boolean fInherit, int IDProcess);
+
+    int readInt(Pointer address);
 }

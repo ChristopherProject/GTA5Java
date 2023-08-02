@@ -1,10 +1,12 @@
 package it.adrian.code.system.memory;
 
 import com.sun.jna.Native;
+import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Tlhelp32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinNT;
 import it.adrian.code.core.interfaces.Kernel32;
+import it.adrian.code.system.memory.signatures.pointer.Ptr;
 
 public class Memory {
 
@@ -76,6 +78,99 @@ public class Memory {
 
     ////////////////MANIPULATIONS/////////////////////
 
-    //method to write and read
+    /**
+     * Calcola l'indirizzo finale sommando gli offset specificati all'indirizzo di base.
+     *
+     * @param ptr l'indirizzo di base a cui aggiungere gli offset.
+     * @param offsets gli offset da sommare all'indirizzo di base.
+     * @return l'indirizzo finale ottenuto sommando gli offset all'indirizzo di base.
+     */
+    public static long findAddress(long ptr, byte[] offsets) {
+        long  addr = ptr;
+        for (int offset : offsets) {
+            addr = addr + offset;
+        }
+        return addr;
+    }
 
+    /**
+     * Scrive un valore intero nella memoria del processo remoto all'indirizzo ottenuto sommando l'offset specificato all'indirizzo base.
+     *
+     * @param baseAddr l'indirizzo base a cui aggiungere l'offset per ottenere l'indirizzo finale.
+     * @param offset l'offset da sommare all'indirizzo base per ottenere l'indirizzo finale di scrittura.
+     * @param value il valore intero da scrivere nella memoria del processo remoto.
+     */
+    public static void writeFromOffset(Ptr baseAddr, long offset, int value) {
+        int offsetAsInt = (int) offset;
+        Ptr finalPtr = baseAddr.copy().add(offsetAsInt);
+        finalPtr.writeInt(value);
+    }
+
+    /**
+     * Scrive un valore intero nella memoria del processo remoto all'indirizzo ottenuto sommando gli offset specificati al puntatore dato.
+     *
+     * @param pHandle il puntatore del processo remoto.
+     * @param ptr l'indirizzo di base a cui aggiungere gli offset per ottenere l'indirizzo finale di scrittura.
+     * @param offsets gli offset da sommare all'indirizzo di base per ottenere l'indirizzo finale di scrittura.
+     * @param value il valore intero da scrivere nella memoria del processo remoto.
+     */
+    public static void writeFromOffsetPtr(WinNT.HANDLE pHandle, long ptr,  int[] offsets, int value) {
+        Ptr pointer = new Ptr(pHandle, new Pointer(ptr));
+        pointer.processName =  pointer.moduleName = "GTA5.exe";
+        Ptr address = pointer.copy();
+        for (int offset : offsets) {address.add(offset);}
+
+        System.out.println(address);
+        address.writeInt(value);
+    }
+
+    /**
+     * Legge un valore di tipo specificato dalla memoria del processo remoto all'indirizzo ottenuto sommando gli offset specificati al puntatore dato.
+     *
+     * @param pHandle il puntatore del processo remoto.
+     * @param ptr l'indirizzo di base a cui aggiungere gli offset per ottenere l'indirizzo finale di lettura.
+     * @param offsets gli offset da sommare all'indirizzo di base per ottenere l'indirizzo finale di lettura.
+     * @param type il tipo di dato da leggere (Integer, Long o Float).
+     * @return il valore letto dalla memoria del processo remoto di tipo specificato.
+     * @throws IllegalArgumentException se il tipo di dato specificato non è supportato.
+     */
+    public static <T> T readFromOffsetPtr(WinNT.HANDLE pHandle, long ptr, int[] offsets, Class<T> type){
+        Ptr pointer = new Ptr(pHandle, new Pointer(ptr));
+        pointer.processName =  pointer.moduleName = "GTA5.exe";
+        Ptr address = pointer.copy();
+        for (int offset : offsets) {address.add(offset);}
+        if (type == Integer.class) {
+            return type.cast(address.readInt());
+        } else if (type == Long.class) {
+            return type.cast(address.readLong());
+        } else if (type == Float.class) {
+            return type.cast(address.readFloat());
+        } else {
+            throw new IllegalArgumentException("Unsupported data type");
+        }
+    }
+
+    /**
+     * Legge un valore di tipo specificato dalla memoria del processo remoto all'indirizzo ottenuto sommando l'offset specificato all'indirizzo base.
+     *
+     * @param baseAddr l'indirizzo base a cui aggiungere l'offset per ottenere l'indirizzo finale di lettura.
+     * @param offset l'offset da sommare all'indirizzo base per ottenere l'indirizzo finale di lettura.
+     * @param type il tipo di dato da leggere (Integer, Long o Float).
+     * @return il valore letto dalla memoria del processo remoto di tipo specificato.
+     * @throws IllegalArgumentException se il tipo di dato specificato non è supportato.
+     */
+    public static <T> T readFromOffset(Ptr baseAddr, long offset, Class<T> type) {
+        int offsetAsInt = (int) offset;
+        Ptr finalPtr = baseAddr.copy().add(offsetAsInt);
+
+        if (type == Integer.class) {
+            return type.cast(finalPtr.readInt());
+        } else if (type == Long.class) {
+            return type.cast(finalPtr.readLong());
+        } else if (type == Float.class) {
+            return type.cast(finalPtr.readFloat());
+        } else {
+            throw new IllegalArgumentException("Unsupported data type");
+        }
+    }
 }

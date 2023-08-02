@@ -7,7 +7,6 @@ public class SIGNATURES {
     public static String worldPtrMask = "xxx????x????xxxxxxxxx";
 
     //GLOBAL
-    public static byte[] SigGlobalPTR = {(byte) 0x4C, (byte) 0x8D, (byte) 0x05, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x4D, (byte) 0x8B, (byte) 0x08, (byte) 0x4D, (byte) 0x85, (byte) 0xC9, (byte) 0x74, (byte) 0x11};
-    public static String MaskGlobalPTR = "xxx????xxxxxxxx";
-
+    public static byte[] globalPtrSig = {(byte) 0x4C, (byte) 0x8D, (byte) 0x05, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x4D, (byte) 0x8B, (byte) 0x08, (byte) 0x4D, (byte) 0x85, (byte) 0xC9, (byte) 0x74, (byte) 0x11};
+    public static String globalPtrMask = "xxx????xxxxxxxx";
 }
