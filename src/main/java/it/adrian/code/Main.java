@@ -15,6 +15,10 @@ import it.adrian.code.system.utilities.ProcessUtil;
 import java.io.IOException;
 import java.util.Objects;
 
+/***
+ * @author AdrianCode
+ * @date 18.07.2023
+ */
 public class Main {
 
     private static final String PROCESS_NAME = "GTA5.exe";
