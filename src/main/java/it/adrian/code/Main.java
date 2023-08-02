@@ -11,6 +11,7 @@ import it.adrian.code.system.memory.signatures.pointer.Ptr;
 import it.adrian.code.system.memory.signatures.scan.SignatureManager;
 import it.adrian.code.system.overlay.GuiInGame;
 import it.adrian.code.system.utilities.ProcessUtil;
+import it.adrian.code.system.utilities.Shell32Util;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -26,6 +27,11 @@ public class Main {
     private static final boolean devMode = false;
 
     public static void main(String... args) throws IOException {
+        if (!Shell32Util.isUserWindowsAdmin()) {
+            User32.INSTANCE.MessageBox(null, "THIS REQUIRE ADMINISTRATION PERMISSIONS", "Warining!?!", User32.MB_OK | User32.MB_ICONWARNING);
+            System.exit(-1);
+            return;
+        }
         int processId = ProcessUtil.getProcessPidByName(PROCESS_NAME);
         if (processId != 0) {
             User32.INSTANCE.MessageBox(null, "Injected!", "NobusWare", User32.MB_OK | User32.MB_ICONINFORMATION);
