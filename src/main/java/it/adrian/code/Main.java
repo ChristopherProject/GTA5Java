@@ -1,6 +1,7 @@
 package it.adrian.code;
 
 import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.Tlhelp32;
 import com.sun.jna.platform.win32.WinNT;
 import it.adrian.code.core.interfaces.Kernel32;
 import it.adrian.code.core.interfaces.User32;
@@ -9,6 +10,7 @@ import it.adrian.code.system.memory.addresses.OFFSETS;
 import it.adrian.code.system.memory.signatures.SIGNATURES;
 import it.adrian.code.system.memory.signatures.pointer.Ptr;
 import it.adrian.code.system.memory.signatures.scan.SignatureManager;
+import it.adrian.code.system.memory.signatures.scan.SignatureUtil;
 import it.adrian.code.system.overlay.GuiInGame;
 import it.adrian.code.system.utilities.ProcessUtil;
 import it.adrian.code.system.utilities.Shell32Util;
@@ -24,7 +26,7 @@ public class Main {
 
     private static final String PROCESS_NAME = "GTA5.exe";
     private static final GuiInGame guiInGame = new GuiInGame("Grand Theft Auto V");
-    private static final boolean devMode = false;
+    private static final boolean devMode = true;
 
     public static void main(String... args) throws IOException {
         if (!Shell32Util.isUserWindowsAdmin()) {
@@ -44,10 +46,14 @@ public class Main {
                 System.out.println("BaseAddr -> " + baseAddress);
                 System.out.println("pHandle -> " + "0x" + Long.toHexString(Pointer.nativeValue(pHandle.getPointer())));
             }
+
             SignatureManager signatureManager = new SignatureManager(pHandle, PROCESS_NAME, processId);
-            long worldPtr = signatureManager.getPtrFromSignature(baseAddr4Sig, SIGNATURES.worldPtrSig, SIGNATURES.worldPtrMask);
+            long worldPtr = signatureManager.getPtrFromSignature(baseAddr4Sig, SIGNATURES.worldPtrSig, SIGNATURES.worldPtrMask, false);
+            long globalPtr = signatureManager.getPtrFromSignature(baseAddr4Sig, SIGNATURES.globalPtrSig, SIGNATURES.globalPtrMask, true);
+
             if (devMode) {
                 System.out.println("worldPtr -> 0x" + Long.toHexString(worldPtr));
+                System.out.println("globalPtr -> 0x" + Long.toHexString(globalPtr));
                 System.out.println("=============");
                 System.out.println("STATIC ADRESSES:");
                 System.out.println("CURRENT_WEAPON_AMMOS -> 0x" + Long.toHexString((Pointer.nativeValue(baseAddr4Sig) + 0x1D59BD0)));

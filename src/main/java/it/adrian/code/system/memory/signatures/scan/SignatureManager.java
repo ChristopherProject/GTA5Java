@@ -17,14 +17,18 @@ public class SignatureManager {
         this.pid = pid;
     }
 
-    public long getPtrFromSignature(Pointer baseAddress, byte[] signaturePtr, String signatureMask) {
+    public long getPtrFromSignature(Pointer baseAddress, byte[] signaturePtr, String signatureMask, boolean isSpecial) {
         try {
             Tlhelp32.MODULEENTRY32W mod = it.adrian.code.system.memory.Memory.getModule(pid, processName);
             long tempPtr = SignatureUtil.findSignature(pHandle, Pointer.nativeValue(baseAddress), mod.modBaseSize.longValue(), signaturePtr, signatureMask);
             if (tempPtr != 0) {
                 int value = SignatureUtil.readInt(pHandle, tempPtr + 3);
                 long ptr = tempPtr + value + 7;
-                return ptr - Pointer.nativeValue(baseAddress);
+                if(!isSpecial){
+                    return ptr - Pointer.nativeValue(baseAddress);
+                }else if(isSpecial){
+                    return ptr;
+                }
             } else {
                 System.out.println("Signature not found.");
             }
@@ -33,6 +37,12 @@ public class SignatureManager {
         }
         return 0;
     }
+
+    /*
+    	DWORD64 _Address = FindSignature(mod.dwBase, mod.dwSize, SigGlobalPTR, MaskGlobalPTR);
+		GlobalPtr = _Address + readInteger(game::pHandle, _Address + 3) + 7;
+		printf("GlobalPtr 0x%I64X\n", GlobalPtr);
+     */
     /*
 #define world2screen "\x48\x89\x5C\x24\x00\x55\x56\x57\x48\x83\xEC\x70\x65\x4C\x8B\x0C\x25"
 #define world2screenMask "xxxx?xxxxxxxxxxxx"

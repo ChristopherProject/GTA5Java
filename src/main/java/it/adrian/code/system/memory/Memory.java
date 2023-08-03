@@ -5,8 +5,10 @@ import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.Tlhelp32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinNT;
+import com.sun.jna.ptr.IntByReference;
 import it.adrian.code.core.interfaces.Kernel32;
 import it.adrian.code.system.memory.signatures.pointer.Ptr;
+import it.adrian.code.system.utilities.JOAAT;
 
 public class Memory {
 
@@ -120,7 +122,7 @@ public class Memory {
         Ptr address = pointer.copy();
         for (int offset : offsets) {address.add(offset);}
 
-        System.out.println(address);
+        //System.out.println(address);
         address.writeInt(value);
     }
 
@@ -173,4 +175,23 @@ public class Memory {
             throw new IllegalArgumentException("Unsupported data type");
         }
     }
+
+    ////////////////GLOBALS/////////////////////
+
+   public static long GA(long globalPTR, int index){
+       return (globalPTR + (8 * (index >> 0x12 & 0x3F))) + (8 * (index & 0x3FFFF));
+   }
+
+   /* public static void setGlobalStats(String stat, int value) throws InterruptedException {
+
+        int hash = JOAAT.joaat(stat);
+        int oldhash = GG_Int(1665476 + 4);//freemode.c
+        int oldvalue = GG_Int(980531 + 5525);//freemode.c mpply_fm_mission_likes
+        SG_Int(1665476 + 4, hash);
+        SG_Int(980531 + 5525, value);
+        SG_Int(1654054 + 1139, -1);
+        Thread.sleep(1000);
+        SG_Int(1665476 + 4, oldhash);
+        SG_Int(980531 + 5525, oldvalue);
+    }*/
 }
