@@ -21,4 +21,4 @@ For this project of mine I used the following technologies:
 
 - Princekin (He Helped me to know what jna is)
 - Foiks (He Helped me and give me some self-confidence for do this)
-- JudgeMe (He Helped me to know memory, offsets and signatures)
+- Backq (He Helped me to know memory, offsets and signatures)
